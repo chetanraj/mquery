@@ -41,12 +41,6 @@
                     </b-form-radio-group>
                   </b-form-group>
                   <b-button size="sm" variant="primary" v-on:click="constructQuery" class="mt-3">GENERATE THE QUERY</b-button>
-                  <b-alert :show="dismissCountDown"
-                          @variant="alertVariant"
-                          @dismissed="dismissCountDown=0"
-                          @dismiss-count-down="countDownChanged">
-                          {{alertMessage}}
-                  </b-alert>
                 </b-col>
               </b-row>
             </b-container>
@@ -66,6 +60,13 @@
           </b-col>
       </b-row>
     </b-container>
+    <b-alert :show="dismissCountDown"
+            dismissible
+            @variant="alertVariant"
+            @dismissed="dismissCountDown=0"
+            @dismiss-count-down="countDownChanged">
+            {{alertMessage}}
+    </b-alert>
   </div>
 </template>
 
@@ -88,7 +89,7 @@ export default {
       p_values: [],
       prettify: '',
       prettify_selected: 'p_yes',
-      dismissSecs: 1,
+      dismissSecs: 3,
       dismissCountDown: 0,
       showDismissibleAlert: false,
       alertVariant: 'success',
@@ -104,7 +105,7 @@ export default {
   },
   methods: {
     constructQuery () {
-      let isFirstQueryParam = true;
+      let isFirstQueryParam = true
       if (this.collection === '') {
         this.needCollection = true
         return
@@ -119,7 +120,7 @@ export default {
         for (let kv of this.keyValues) {
           if (this.keys[kv.index] && this.values[kv.index]) {
             this.keyValueQuery += this.keys[kv.index] + ': ' + '\'' + this.values[kv.index] + '\''
-            isFirstQueryParam = false;
+            isFirstQueryParam = false
           }
           //! Multiple key values
           if (!isFirstQueryParam && (kv.index + 1) !== this.keyValues.length && this.keys[kv.index + 1] && this.values[kv.index + 1]) {
@@ -205,5 +206,10 @@ export default {
   }
   .label-also {
     position: relative;
+  }
+  .alert {
+    position: absolute;
+    top: .5em;
+    right: 1em;
   }
 </style>
